@@ -1,329 +1,106 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opening O2SN 2026 - Lubuklinggau Selatan I</title>
-    <style>
-        :root {
-            --glow-color: #00fbff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infografis PJOK Kelas 6</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fff9c4);
+      margin: 0;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      background-color: #0288d1;
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      animation: fadeInDown 1s ease-out;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.8s ease-out;
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .card h3 {
+      margin-top: 0;
+      color: #0277bd;
+    }
+    .badge {
+      display: inline-block;
+      background: #ff9800;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      font-weight: bold;
+    }
 
-        body {
-            margin: 0;
-            background: #000;
-            color: white;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        /* Latar Belakang Utama */
-        .bg-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0, 8, 15, 0.85), rgba(0, 8, 15, 0.85)), 
-                        url('https://i.postimg.cc/7hY2hZJg/IMG-20260430-090610.png');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-        }
-
-        /* Antarmuka Pemindai (Scanner UI) */
-        .scanner-container {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .scan-pad {
-            width: 160px;
-            height: 220px;
-            border: 3px solid var(--glow-color);
-            border-radius: 15px;
-            margin: 20px auto;
-            position: relative;
-            background: rgba(0, 251, 255, 0.05);
-            box-shadow: 0 0 20px rgba(0, 251, 255, 0.2);
-            cursor: pointer;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .scan-pad:active, .scan-pad.active {
-            box-shadow: 0 0 40px var(--glow-color);
-            background: rgba(0, 251, 255, 0.15);
-        }
-
-        /* Garis Laser Scanner */
-        .laser-line {
-            display: none;
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--glow-color);
-            box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color);
-            z-index: 5;
-        }
-
-        @keyframes scanMove {
-            0% { top: 0%; }
-            100% { top: 100%; }
-        }
-
-        /* Grafik Sidik Jari (Simulasi) */
-        .fingerprint-icon {
-            font-size: 4rem;
-            opacity: 0.6;
-            color: var(--glow-color);
-            user-select: none;
-        }
-
-        #statusText {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            margin-top: 15px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-
-        #countdownDisplay {
-            display: none;
-            font-size: 6rem;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-shadow: 0 0 30px var(--glow-color);
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        /* LAYAR SUKSES */
-        .success-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            padding-top: 80px;
-            animation: fadeIn 1.5s ease;
-            overflow: hidden;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9)), 
-                              url('https://i.postimg.cc/7hY2hZJg/IMG-20260430-090610.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 10000;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .success-overlay h1 { 
-            font-size: 5rem; 
-            margin: 10px 0; 
-            color: white; 
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-        }
-
-        .success-overlay h2 { 
-            color: var(--glow-color); 
-            letter-spacing: 5px; 
-            text-shadow: 0 0 10px var(--glow-color);
-            margin-bottom: 20px;
-        }
-
-        .btn-reset {
-            margin-top: 50px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid white;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        .btn-reset:hover {
-            background: rgba(255,255,255,0.25);
-        }
-    </style>
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+  <div class="header">
+    <h1>🏀 Infografis Ujian PJOK Kelas 6</h1>
+    <p>SDN 3 Margahayu | Tahun Pelajaran 2025/2026</p>
+  </div>
 
-    <div class="scanner-container" id="mainScannerUi">
-        <h2 style="letter-spacing: 3px; opacity: 0.9;">BIOMETRIC LAUNCH SYSTEM</h2>
-        <div class="scan-pad" id="trigger">
-            <div class="laser-line" id="scanner"></div>
-            <div class="fingerprint-icon">✋</div>
-        </div>
-        <div id="statusText">TAP AND HOLD TO START<br><span style="color: #666;">SYSTEM IDLE</span></div>
+  <div class="grid-container">
+    <div class="card">
+      <h3>⚽ 1. Bola Besar</h3>
+      <p>Menjelaskan peraturan & teknik dasar permainan bola besar.</p>
+      <span class="badge">6 Soal PG (No. 1-6)</span>
     </div>
-
-    <div id="countdownDisplay">3</div>
-
-    <video id="transition-video" preload="auto" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 9999;">
-        Browser Anda tidak mendukung tag video.
-    </video>
-
-    <div class="success-overlay">
-        <div style="position: relative; z-index: 2;">
-            <h1>O2SN 2026</h1>
-            <h2>LUBUKLINGGAU SELATAN I</h2>
-            <h1 style="color: #ffd700; font-size: 5.5rem; text-shadow: 0 0 40px rgba(255, 215, 0, 0.7); margin-top: 30px;">RESMI DIBUKA</h1>
-            <p style="font-size: 1.8rem; margin-top: 50px; font-style: italic; opacity: 0.9; text-shadow: 0 0 8px #000;">"Sportivitas Adalah Jati Diri Kami"</p>
-            <button class="btn-reset" onclick="location.reload()">Reset System</button>
-        </div>
+    <div class="card">
+      <h3>🏃 2. Atletik & Tradisional</h3>
+      <p>Menerapkan gerak lokomotor, non-lokomotor, dan manipulatif.</p>
+      <span class="badge">5 Soal PG (No. 7-11)</span>
     </div>
+    <div class="card">
+      <h3>💪 3. Kebugaran Jasmani</h3>
+      <p>Manfaat dan jenis latihan kebugaran tubuh.</p>
+      <span class="badge">4 Soal PG (No. 12-15)</span>
+    </div>
+    <div class="card">
+      <h3>🏊‍♂️ 4. Aktivitas Air</h3>
+      <p>Teknik dasar pernapasan dan gerakan meluncur saat berenang.</p>
+      <span class="badge">2 Soal PG (No. 16-17)</span>
+    </div>
+    <div class="card">
+      <h3>🥗 5. Pola Hidup Sehat</h3>
+      <p>Pentingnya kebersihan diri, lingkungan, dan gizi seimbang.</p>
+      <span class="badge">3 Soal PG (No. 18-20)</span>
+    </div>
+    <div class="card">
+      <h3>🏆 6. Sikap & Sportivitas</h3>
+      <p>Menjodohkan konsep sikap sportif & tanggung jawab.</p>
+      <span class="badge">5 Soal Menjodohkan</span>
+    </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const trigger = document.getElementById('trigger');
-            const scanner = document.getElementById('scanner');
-            const countdownDisplay = document.getElementById('countdownDisplay');
-            const statusText = document.getElementById('statusText');
-            const videoTransisi = document.getElementById('transition-video');
-            const successOverlay = document.querySelector('.success-overlay');
-            const mainScannerUi = document.getElementById('mainScannerUi');
-
-            let countdownValue = 3;
-            let audioCtx;
-            let scanInterval;
-
-            // URL Rekomendasi Kecepatan Tinggi (Google Storage CDN) untuk Video Transisi Api/Semburan Sinematik
-            // REKOMENDASI: Jika offline, ganti isi URL di bawah ini dengan file lokal Anda, misal: "transisi.mp4"
-            const videoUrlUtama = "https://vjs.zencdn.net/v/oceans.mp4";
-
-            // PRO-TIPS: Mengunci video langsung di RAM (Blob Preload) sejak web dibuka biar bebas buffer 
-            fetch(videoUrlUtama)
-                .then(response => response.blob())
-                .then(blob => {
-                    const localVideoObject = URL.createObjectURL(blob);
-                    videoTransisi.src = localVideoObject;
-                    console.log("🔥 Sistem Siap: Video transisi terkunci di memori lokal (Anti-Buffer)!");
-                })
-                .catch(err => {
-                    console.warn("Gagal preload, beralih ke mode standard streaming:", err);
-                    videoTransisi.src = videoUrlUtama;
-                });
-
-            // Suara "Beep" Hitung Mundur
-            function playScanBeep(isFinal = false) {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(isFinal ? 880 : 440, audioCtx.currentTime);
-                
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.1);
-            }
-
-            // Suara Sirine Penutup
-            function playSiren() {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
-                oscillator.frequency.linearRampToValueAtTime(880, audioCtx.currentTime + 1.5);
-                
-                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 2.5);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 2.5);
-            }
-
-            function tampilkanLayarSukses() {
-                if (successOverlay) {
-                    successOverlay.style.display = 'block';
-                }
-                playSiren();
-            }
-
-            function startScan(e) {
-                e.preventDefault();
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                countdownValue = 3;
-                countdownDisplay.innerText = countdownValue;
-                countdownDisplay.style.display = 'block';
-                
-                playScanBeep();
-
-                trigger.classList.add('active');
-                scanner.style.display = 'block';
-                scanner.style.animation = 'scanMove 1.5s infinite alternate linear';
-                statusText.innerHTML = 'VERIFYING BIOMETRICS...<br><span style="color: #00fbff;">AUTHENTICATING</span>';
-                
-                scanInterval = setInterval(() => {
-                    countdownValue--;
-                    if (countdownValue > 0) {
-                        countdownDisplay.innerText = countdownValue;
-                        playScanBeep(); 
-                        if (navigator.vibrate) navigator.vibrate(50);
-                    } else {
-                        // HITUNG MUNDUR SELESAI
-                        clearInterval(scanInterval);
-                        playScanBeep(true); 
-                        
-                        // Bersihkan elemen scanner
-                        countdownDisplay.style.display = 'none';
-                        mainScannerUi.style.display = 'none';
-                        
-                        // Tampilkan dan Putar Video Transisi secara instan tanpa buffer
-                        videoTransisi.style.display = 'block';
-                        videoTransisi.play().catch(error => {
-                            console.log("Autoplay ditolak browser, langsung melompat ke layar sukses.", error);
-                            videoTransisi.style.display = 'none';
-                            tampilkanLayarSukses();
-                        });
-
-                        // Ketika Video Transisi Selesai Berputar, Munculkan Panggung Utama O2SN
-                        videoTransisi.onended = function() {
-                            videoTransisi.style.display = 'none';
-                            tampilkanLayarSukses();
-                        };
-                    }
-                }, 1000);
-            }
-
-            // Daftarkan Event listener klik/sentuh
-            trigger.addEventListener('mousedown', startScan);
-            trigger.addEventListener('touchstart', startScan);
-        });
-    </script>
 </body>
 </html>
